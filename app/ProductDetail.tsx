@@ -8,12 +8,14 @@ import { Ionicons } from '@expo/vector-icons';
 const { width } = Dimensions.get('window');
 
 // Định nghĩa kiểu cho sản phẩm và các tham số truyền vào màn hình chi tiết sản phẩm
-type Product = {
-  description: ReactNode;
-  name: string;
-  price: string;
-  image: any;  
-};
+export interface Product {
+  id: string; // Hoặc number, tùy vào kiểu dữ liệu trong MySQL
+  name: string; // Đổi từ title sang name cho phù hợp với cấu trúc dữ liệu
+  photo: string; // Giữ nguyên thuộc tính tên hình ảnh
+  description: string; // Có thể giữ lại nếu bạn cần hiển thị mô tả
+  price: number; // Hoặc string nếu giá được lưu dưới dạng chuỗi
+}
+
 
 type ProductDetailScreenRouteProp = RouteProp<{ params: { product: Product } }, 'params'>;
 
@@ -91,8 +93,8 @@ const ProductDetailScreen = () => {
           <TouchableOpacity style={styles.back} onPress={handleRegisterPress}>
             <Ionicons name="arrow-back" size={35} color="black" />
           </TouchableOpacity>
-      <Image source={product.image} style={styles.productImage} />
-      <Text style={styles.productName}>{product.name}</Text>
+          <Image style={styles.productImage} source={{ uri: `http://127.0.0.1:8000/storage/products/${product.photo}` }} />
+          <Text style={styles.productName}>{product.name}</Text>
       <Text style={styles.productPrice}>{product.price}</Text>
 
       <View style={styles.quantitySelector}>
