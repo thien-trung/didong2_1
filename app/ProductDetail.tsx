@@ -84,13 +84,13 @@ const ProductDetailScreen = () => {
 
     </TouchableOpacity>
   );
-    const handleRegisterPress = () => {
+    const handleHome = () => {
         router.push('/(tabs)');
       };
   return (
     
     <ScrollView style={styles.container}>
-          <TouchableOpacity style={styles.back} onPress={handleRegisterPress}>
+          <TouchableOpacity style={styles.back} onPress={handleHome}>
             <Ionicons name="arrow-back" size={35} color="black" />
           </TouchableOpacity>
           <Image style={styles.productImage} source={{ uri: `http://127.0.0.1:8000/storage/products/${product.photo}` }} />

@@ -263,8 +263,8 @@
 //   },
 //   cartIcon: {
 //     marginLeft: 5,
-//   },
-//   underline: {
+//   },s
+//   underline:   
 //     width: '100%',
 //     height: 2,
 //     backgroundColor: '#000000',

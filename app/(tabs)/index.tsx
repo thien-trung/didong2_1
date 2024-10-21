@@ -29,7 +29,7 @@ export default function HomeScreen() {
       .catch((error) => {
         console.error("Lỗi khi lấy sản phẩm:", error); // Log lỗi nếu có
       });
-  }, []); 
+  }, []);  
 
   return (
     <ScrollView style={styles.container}>
