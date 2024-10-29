@@ -6,6 +6,8 @@ use App\Models\Stock;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProduct;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -32,8 +34,21 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function showAllSearch(Request $request)
+    {
+        $keyword = $request->input('query');
 
+        // Nếu không có từ khóa, trả về tất cả sản phẩm
+        if (empty($keyword)) {
+            return Product::with("category", "stocks")->get();
+        }
 
+        // Tìm kiếm sản phẩm theo từ khóa trong tên hoặc mô tả
+        return Product::with("category", "stocks")
+            ->where('name', 'LIKE', "%{$keyword}%")
+            ->orWhere('description', 'LIKE', "%{$keyword}%")
+            ->get();
+    }
     public function show($id)
     {
         $product = Product::with("category", "stocks")->findOrFail($id);

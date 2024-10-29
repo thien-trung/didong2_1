@@ -27,4 +27,9 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\Stock');
     }
+    public function scopeSearch($query, $keyword)
+    {
+        return $query->where('name', 'LIKE', '%' . $keyword . '%');
+    }
+
 }

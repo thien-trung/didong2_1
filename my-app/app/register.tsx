@@ -117,7 +117,7 @@ export default function RegisterScreen() {
                 <Text style={styles.socialButtonText}>Đăng nhập bằng Facebook</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => router.push('/login')}>
+            <TouchableOpacity onPress={() => router.push('/')}>
                 <Text style={styles.textLogin}>Quay lại trang đăng nhập</Text>
             </TouchableOpacity>
 
@@ -135,7 +135,7 @@ export default function RegisterScreen() {
                                 style={styles.modalButton}
                                 onPress={() => {
                                     setModalVisible(false);
-                                    router.push('/login');
+                                    router.push('/');
                                 }}
                             >
                                 <Text style={styles.modalButtonText}>Quay lại trang đăng nhập</Text>

@@ -46,6 +46,8 @@ Route::get('/product/hot-deal', 'App\Http\Controllers\ProductDealsController@hot
 Route::post('/products', 'App\Http\Controllers\ProductController@store');
 Route::delete('/products/{id}', 'App\Http\Controllers\ProductController@destroy');
 Route::get('/categories/{id}/products', [ProductController::class, 'getProductsByCategory']);
+Route::get('/productSearch', [ProductController::class, 'showAllSearch']);
+
 
 // Product Orders
 Route::post('/stripe', 'App\Http\Controllers\ProductOrdersController@stripePost');
