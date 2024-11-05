@@ -46,9 +46,14 @@ Route::get('/product/hot-deal', 'App\Http\Controllers\ProductDealsController@hot
 Route::post('/products', 'App\Http\Controllers\ProductController@store');
 Route::delete('/products/{id}', 'App\Http\Controllers\ProductController@destroy');
 Route::get('/categories/{id}/products', [ProductController::class, 'getProductsByCategory']);
-Route::get('/productSearch', [ProductController::class, 'showAllSearch']);
+Route::get('/product/search', [ProductController::class, 'search']);
 
-
+Route::get('/product/cart-list/count', 'App\Http\Controllers\ProductShoppingCartController@cartCount');
+Route::get('/product/cart-list', 'App\Http\Controllers\ProductShoppingCartController@index');
+Route::post('/product/cart-list', 'App\Http\Controllers\ProductShoppingCartController@store');
+Route::post('/product/cart-list/guest', 'App\Http\Controllers\ProductShoppingCartController@guestCart');
+Route::put('/product/cart-list/{id}', 'App\Http\Controllers\ProductShoppingCartController@update');
+Route::delete('/product/cart-list/{id}', 'App\Http\Controllers\ProductShoppingCartController@destroy');
 // Product Orders
 Route::post('/stripe', 'App\Http\Controllers\ProductOrdersController@stripePost');
 Route::post('/product/orders', 'App\Http\Controllers\ProductOrdersController@store');
@@ -58,7 +63,7 @@ Route::post('/create-payment-intent', [ProductOrdersController::class, 'createPa
 Route::get('/product/categories', 'App\Http\Controllers\CategoryController@index');
 Route::get('/product/categories/{id}/top-selling', 'App\Http\Controllers\CategoryController@topSelling');
 Route::get('/product/categories/{id}/new', 'App\Http\Controllers\CategoryController@new');
-Route::get('/products/category/{categoryId}', 'App\Http\Controllers\ProductController@getProductsByCategory');
+Route::get('    {categoryId}', 'App\Http\Controllers\ProductController@getProductsByCategory');
 
 // Product Shopping Cart
 Route::post('/cart', [ShoppingCartController::class, 'store']);

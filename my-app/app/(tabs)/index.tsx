@@ -4,6 +4,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import React from 'react';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen() {
     const [email, setEmail] = React.useState('');
@@ -12,9 +13,9 @@ export default function LoginScreen() {
 
     const handleLogin = async () => {
         setErrorMessage(''); // Reset thông báo lỗi
-
+    
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/login', {
+            const response = await fetch(`http://127.0.0.1:8000/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,18 +25,16 @@ export default function LoginScreen() {
                     password: password,
                 }),
             });
-
+    
             const data = await response.json();
-
+    
             if (response.status === 200) {
-                console.log('Đăng nhập thành công:', data);
+                console.log('Login successful:', data);
+                // Lưu token vào AsyncStorage
+                await AsyncStorage.setItem("jwt_token", data.token); 
                 router.push('/home');
-            } else {    
-                if (response.status === 401) { // 401 là mã lỗi cho Unauthorized
-                    setErrorMessage("Thông tin đăng nhập không hợp lệ. Vui lòng kiểm tra lại email và mật khẩu.");
-                } else {
-                  setErrorMessage("Thông tin đăng nhập không hợp lệ. Vui lòng kiểm tra lại email và mật khẩu.");
-                }
+            } else {
+                setErrorMessage("Thông tin đăng nhập không hợp lệ. Vui lòng kiểm tra lại email và mật khẩu.");
             }
         } catch (error) {
             console.error("Lỗi đăng nhập:", error);
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
     },
     loginButton: {
         backgroundColor: '#4285F4',
-        padding: 15,
+        padding: 15,    
         borderRadius: 10,
         width: '100%',
         alignItems: 'center',

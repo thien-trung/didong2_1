@@ -4,14 +4,16 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
 // Định nghĩa kiểu cho sản phẩm và các tham số truyền vào màn hình chi tiết sản phẩm
 type Product = {
+  id: string;
   description: ReactNode;
   name: string;
-  price: string;
+  price: number;
   photo: any;  
 };
 
@@ -86,6 +88,44 @@ const ProductDetailScreen = () => {
 
     </TouchableOpacity>
   );
+  const addToCart = async (productId:string, quantity:number, price:number) => {
+    try {
+        const token = await AsyncStorage.getItem('jwt_token');
+        
+        const response = await fetch("http://127.0.0.1:8000/api/product/cart-list", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                productId,
+                quantity,
+                price,
+            }),
+        });
+        
+        // Kiểm tra nếu phản hồi là JSON
+        if (response.ok && response.headers.get('content-type')?.includes('application/json')) {
+            const data = await response.json();
+            
+            if (response.status === 200) {
+                alert(data.message);
+            } else {
+                console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", data);
+                alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            }
+        } else {
+            // In ra nội dung khi không phải JSON
+            const errorText = await response.text();
+            console.error("Phản hồi không phải là JSON:", errorText);
+            alert("Có lỗi xảy ra. Vui lòng thử lại.");
+        }
+    } catch (error) {
+        console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", error);
+        alert("Có lỗi xảy ra. Vui lòng thử lại.");
+    }
+};
     const handleRegisterPress = () => {
         router.push('/home');
       };
@@ -108,8 +148,9 @@ const ProductDetailScreen = () => {
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.orderButton}>
-        <Text style={styles.orderButtonText}>Đặt Hàng</Text>
+      <TouchableOpacity style={styles.orderButton}  onPress={() => addToCart(product.id, 1, product.price)} >
+        <Text  style={styles.orderButtonText}>Thêm vào giỏ hàng
+        </Text>
       </TouchableOpacity>
       <Text style={styles.descriptionTitle}>Mô tả:</Text>
       <Text style={styles.descriptionText}>{product.description}</Text>
@@ -147,6 +188,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333',
   },
+  
   productPrice: {
     fontSize: 20,
     color: '#E63946',
@@ -237,6 +279,8 @@ const styles = StyleSheet.create({
     padding: 5,
     marginTop:10,
     marginLeft:-10,
+  },
+  icon: {
   },
 
 });

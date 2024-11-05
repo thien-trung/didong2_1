@@ -34,20 +34,19 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-    public function showAllSearch(Request $request)
+    public function search(Request $request)
     {
-        $keyword = $request->input('query');
+        \Log::info('Search method called');
 
-        // Nếu không có từ khóa, trả về tất cả sản phẩm
-        if (empty($keyword)) {
-            return Product::with("category", "stocks")->get();
-        }
+        $query = $request->input('query');
+        \Log::info('Searching for: ' . $query);
 
-        // Tìm kiếm sản phẩm theo từ khóa trong tên hoặc mô tả
-        return Product::with("category", "stocks")
-            ->where('name', 'LIKE', "%{$keyword}%")
-            ->orWhere('description', 'LIKE', "%{$keyword}%")
-            ->get();
+        // Tìm kiếm chỉ theo tên sản phẩm
+        $product = Product::where('name', 'like', "%$query%")->get();
+
+        \Log::info('Products found: ' . $product->count());
+
+        return response()->json($product);
     }
     public function show($id)
     {

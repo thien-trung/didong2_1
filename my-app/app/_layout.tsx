@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { ProductProvider } from '@/context/ProductContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import SearchResultsScreen from './SearchResultsScreen';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,13 +34,16 @@ export default function RootLayout() {
           <Stack.Screen name="login" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
+          
           <Stack.Screen name="home" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
           <Stack.Screen name="ProductDetail" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
           <Stack.Screen name="ProductList" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
-          <Stack.Screen name="cart" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
+          {/* <Stack.Screen name="cart" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} /> */}
           <Stack.Screen name="register" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
-        </Stack>
+          {/* <Stack.Screen name="SearchResults" options={{ headerTitle: 'Kết quả tìm kiếm' }} />  */}
+          {/* <Stack.Screen name="cart" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />      */}
+      </Stack> 
       </ProductProvider>
     </ThemeProvider>
-  );
+  );    
 }
