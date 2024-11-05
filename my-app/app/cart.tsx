@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Checkbox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
 
 interface CartItem {
     id: string;
@@ -109,6 +110,9 @@ const Cart = () => {
         cartItems.some(cartItem => cartItem.product_id === product.id)
     );
 
+    const Back = () => {
+        router.push('/home');
+      };
 
   
 
@@ -125,7 +129,7 @@ const Cart = () => {
                         <TouchableOpacity>
                             <Text style={styles.productName}>{item.name}</Text>
                         </TouchableOpacity>
-                        <Text style={styles.productPrice}>{(cartItem?.price || 0).toLocaleString()} VMD</Text>
+                        <Text style={styles.productPrice}>{(cartItem?.price || 0).toLocaleString()} VND</Text>
                         <Text style={styles.productQuantity}>Quantity: {cartItem?.quantity}</Text>
                     </View>
                 </TouchableOpacity>
@@ -150,6 +154,9 @@ const Cart = () => {
 
     return (
         <View style={styles.container}>
+                  <TouchableOpacity style={styles.back} onPress={Back}>
+      <Ionicons name="arrow-back" size={35} color="black" />
+      </TouchableOpacity>
             <Text style={styles.title}>Giỏ Hàng</Text>
             <FlatList
                 data={filteredProducts}
@@ -157,7 +164,7 @@ const Cart = () => {
                 renderItem={renderCartItem}
             />
             <View style={styles.totalContainer}>
-                <Text style={styles.totalText}>Tổng tiền: {totalAmount.toLocaleString()} VMD</Text>
+                <Text style={styles.totalText}>Tổng tiền: {totalAmount.toLocaleString()} VND</Text>
                 <TouchableOpacity style={styles.checkoutButton} >
                     <Text style={styles.checkoutButtonText}>Thanh Toán</Text>
                 </TouchableOpacity>
@@ -179,6 +186,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#333',
     },
+    back:{
+        padding: 5,
+        marginTop:10,
+        marginLeft:-10,
+      },
     cartItem: {
         flexDirection: 'row',
         justifyContent: 'space-between',

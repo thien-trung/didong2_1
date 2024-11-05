@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useProductContext } from '@/context/ProductContext'; // Import context
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import Toast from 'react-native-toast-message';
+
 export interface Product {
   id: string; 
   name: string; 
@@ -88,43 +90,97 @@ export default function HomeScreen() {
         console.error("Lỗi khi gọi API:", error);
     }
 };
-  const addToCart = async (productId:string, quantity:number, price:number) => {
-    try {
-        const token = await AsyncStorage.getItem('jwt_token');
+
+// const addToCart = async (productId: string, quantity: number, price: number) => {
+//     try {
+//         const token = await AsyncStorage.getItem('jwt_token');
         
-        const response = await fetch("http://127.0.0.1:8000/api/product/cart-list", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                productId,
-                quantity,
-                price,
-            }),
-        });
+//         const response = await fetch("http://127.0.0.1:8000/api/product/cart-list", {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 Authorization: `Bearer ${token}`
+//             },
+//             body: JSON.stringify({
+//                 productId,
+//                 quantity,
+//                 price,
+//             }),
+//         });
         
-        // Kiểm tra nếu phản hồi là JSON
-        if (response.ok && response.headers.get('content-type')?.includes('application/json')) {
-            const data = await response.json();
+//         if (response.ok && response.headers.get('content-type')?.includes('application/json')) {
+//             const data = await response.json();
             
-            if (response.status === 200) {
-                alert(data.message);
-            } else {
-                console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", data);
-                alert("Có lỗi xảy ra. Vui lòng thử lại.");
-            }
-        } else {
-            // In ra nội dung khi không phải JSON
-            const errorText = await response.text();
-            console.error("Phản hồi không phải là JSON:", errorText);
-            alert("Có lỗi xảy ra. Vui lòng thử lại.");
-        }
-    } catch (error) {
-        console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", error);
-        alert("Có lỗi xảy ra. Vui lòng thử lại.");
-    }
+//             if (response.status === 200) {
+//                 Toast.show({
+//                     type: 'success',
+//                     text1: 'Thành công',
+//                     text2: 'Sản phẩm đã được thêm vào giỏ hàng',
+//                     visibilityTime: 2000, 
+//                 });
+//             } else {
+//                 console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", data);
+//                 Toast.show({
+//                     type: 'error',
+//                     text1: 'Lỗi',
+//                     text2: 'Có lỗi xảy ra. Vui lòng thử lại.',
+//                 });
+//             }
+//         } else {
+//             const errorText = await response.text();
+//             console.error("Phản hồi không phải là JSON:", errorText);
+//             Toast.show({
+//                 type: 'error',
+//                 text1: 'Lỗi',
+//                 text2: 'Có lỗi xảy ra. Vui lòng thử lại.',
+//             });
+//         }
+//     } catch (error) {
+//         console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", error);
+//         Toast.show({
+//             type: 'error',
+//             text1: 'Lỗi',
+//             text2: 'Có lỗi xảy ra. Vui lòng thử lại.',
+//         });
+//     }
+// };
+const addToCart = async (productId:string, quantity:number, price:number) => {
+  try {
+      const token = await AsyncStorage.getItem('jwt_token');
+      
+      const response = await fetch("http://127.0.0.1:8000/api/product/cart-list", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+              productId,
+              quantity,
+              price,
+          }),
+      });
+      
+      // Kiểm tra nếu phản hồi là JSON
+      if (response.ok && response.headers.get('content-type')?.includes('application/json')) {
+          const data = await response.json();
+          
+          if (response.status === 200) {
+              alert(data.message);
+          } else {
+              console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", data);
+              alert("Có lỗi xảy ra. Vui lòng thử lại.");
+          }
+      } else {
+          // In ra nội dung khi không phải JSON
+          const errorText = await response.text();
+          console.error("Phản hồi không phải là JSON:", errorText);
+          alert("Có lỗi xảy ra. Vui lòng thử lại.");
+      }
+  } catch (error) {
+      console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", error);
+      alert("Có lỗi xảy ra. Vui lòng thử lại.");
+  }
 };
 
 const handleLogout = () => {

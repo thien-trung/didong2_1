@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react
 import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Product {
@@ -73,6 +73,10 @@ export default function CategoryProducts() {
         alert("Có lỗi xảy ra. Vui lòng thử lại.");
     }
 };
+const Back = () => {
+  router.push('/home');
+};
+
   const renderItem = ({ item }: { item: Product }) => (
     <TouchableOpacity style={styles.productItem}>
       <Image 
@@ -100,6 +104,9 @@ export default function CategoryProducts() {
 
   return (
     <View style={styles.container}>
+                <TouchableOpacity style={styles.back} onPress={Back}>
+            <Ionicons name="arrow-back" size={35} color="black" />
+          </TouchableOpacity>
       <Text style={styles.title}>Sản phẩm trong danh mục</Text>
       <FlatList
         data={products}
@@ -118,6 +125,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#e9ecef', 
+  },
+  
+  back:{
+    padding: 5,
+    marginTop:10,
+    marginLeft:-10,
   },
   buttonContainer: {
     flexDirection: 'row',

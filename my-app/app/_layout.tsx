@@ -38,10 +38,10 @@ export default function RootLayout() {
           <Stack.Screen name="home" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
           <Stack.Screen name="ProductDetail" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
           <Stack.Screen name="ProductList" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
-          {/* <Stack.Screen name="cart" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} /> */}
+          <Stack.Screen name="CategoryProducts" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
+          <Stack.Screen name="cart" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
           <Stack.Screen name="register" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />
-          {/* <Stack.Screen name="SearchResults" options={{ headerTitle: 'Kết quả tìm kiếm' }} />  */}
-          {/* <Stack.Screen name="cart" options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} />      */}
+          <Stack.Screen name="SearchResultsScreen"options={{ headerTitle: '', headerBackVisible: false, headerShown: false }} /> 
       </Stack> 
       </ProductProvider>
     </ThemeProvider>

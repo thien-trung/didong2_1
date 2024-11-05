@@ -26,7 +26,6 @@ const Checkout: React.FC<Props> = ({ route, navigation }) => {
     const { total, selectedItems } = route.params;
 
     const handleConfirm = () => {
-        // Logic to handle confirmation of payment
         Alert.alert('Payment confirmed!', `You have paid a total of ${total.toLocaleString()} $`);
         navigation.goBack();
     };

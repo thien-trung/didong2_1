@@ -3,7 +3,8 @@ import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { Product } from './home'; // Đảm bảo bạn đã xuất Product từ HomeScreen
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 type SearchResultsScreenRouteProp = RouteProp<{ 
   SearchResultsScreen: { results: Product[] }; 
@@ -14,9 +15,15 @@ const SearchResultsScreen: React.FC = () => {
 
   const route = useRoute<SearchResultsScreenRouteProp>();
   const { results } = route.params; // Truy cập các tham số đã được truyền vào
+  const Back = () => {
+    router.push('/home');
+  };
 
   return (
     <View style={styles.container}>
+            <TouchableOpacity style={styles.back} onPress={Back}>
+      <Ionicons name="arrow-back" size={35} color="black" />
+      </TouchableOpacity>
       <Text style={styles.title}>Kết quả tìm kiếm</Text>
       <FlatList
         data={results}
@@ -52,6 +59,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
     padding: 20,
+  },
+  back:{
+    padding: 5,
+    marginTop:10,
+    marginLeft:-10,
   },
   buttonContainer: {
     flexDirection: 'row',

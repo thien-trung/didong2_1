@@ -42,12 +42,13 @@ class ProductShoppingCartController extends Controller
                 'quantity' => $request->quantity,
                 'price' => $request->price // Lưu giá vào giỏ hàng
             ]);
+            return response()->json(['message' => 'Sản phẩm đã được thêm vào giỏ hàng thành công.']);
         } else {
             $item->increment('quantity', $request->quantity);
+            return response()->json(['message' => 'Số lượng sản phẩm trong giỏ hàng đã được cập nhật.']);
         }
-
-        return response()->json(['message' => 'Item added to cart successfully']);
     }
+
 
 
     public function guestCart(Request $request)
@@ -87,18 +88,28 @@ class ProductShoppingCartController extends Controller
 
     public function destroy($id)
     {
-        $user = JWTAuth::parseToken()->authenticate();
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
 
-        if ($user) {
-            $cartItem = $user->cartItems()->findOrFail($id);
-
-            if ($cartItem) {
-                $cartItem->delete();
-return response()->json(['message' => 'Item removed from cart successfully']);
+            if (!$user) {
+                return response()->json(['message' => 'Người dùng chưa xác thực'], 401);
             }
-        }
 
-        return response()->json(['message' => 'Item not found'], 404);
+            // Tìm sản phẩm trong giỏ hàng của người dùng
+            $cartItem = $user->cartItems()->find($id);
+
+            if (!$cartItem) {
+                return response()->json(['message' => 'Sản phẩm không tồn tại trong giỏ hàng'], 404);
+            }
+
+            // Xóa sản phẩm khỏi giỏ hàng
+            $cartItem->delete();
+            return response()->json(['message' => 'Đã xóa sản phẩm khỏi giỏ hàng thành công'], 200);
+
+        } catch (\Exception $e) {
+            // Xử lý lỗi không xác định
+            return response()->json(['message' => 'Có lỗi xảy ra, vui lòng thử lại.'], 500);
+        }
     }
 
 
